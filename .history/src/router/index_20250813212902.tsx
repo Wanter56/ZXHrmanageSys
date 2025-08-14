@@ -1,0 +1,35 @@
+import { createBrowserRouter } from "react-router";
+import { Navigate } from "react-router";
+
+import NotFound from "../pages/404Page";
+import AccessMent from "../pages/accessment";
+import Attendance from "../pages/attendance";
+import AttendanceInfo from "../pages/attendanceInfo";
+import DashBoard from "../pages/dashboard";
+import Department from "../pages/department";
+import Level from "../pages/level";
+import RewardRecord from "../pages/rewardRecord";
+import Salary from "../pages/salary";
+import Staff from "../pages/staff";
+import Login from "../pages/users/login";
+import ForgetPassword from "../pages/users/forgetPassword";
+
+export const router = createBrowserRouter([
+  {
+    path: "/users/login",
+    element: <Login />,
+  },
+  {
+    path: "/users/forgetPassword",
+    element: <ForgetPassword />,
+  },
+
+  {
+    path: "/404",
+    element: <NotFound />,
+  },
+  {
+    path: "*",
+    Component: <Navigate to="/404" />,
+  },
+]);

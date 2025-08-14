@@ -1,0 +1,92 @@
+// 变量定义 - 方便统一修改
+@container-bg: #f8fafc;
+@container-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+@char-font-size: 2rem;
+@char-color: #334155;
+@char-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+@hover-scale: 1.05;
+@hover-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+@transition-base: all 0.3s ease;
+@gradient-text-normal: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+@gradient-text-hover: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+@gradient-underline: linear-gradient(90deg, #3b82f6, #6366f1);
+
+.common-header-container {
+  padding: 1.5rem;
+  background-color: @container-bg;
+  border-radius: 12px;
+  box-shadow: @container-shadow;
+
+  .common-header {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+
+    .char {
+      font-size: @char-font-size;
+      font-weight: 700;
+      color: @char-color;
+      text-shadow: @char-shadow;
+      transition: @transition-base;
+      position: relative;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      background: @gradient-text-normal;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: @gradient-underline;
+        transition: width 0.3s ease;
+        border-radius: 3px;
+      }
+
+      &:hover {
+        transform: translateY(-5px) scale(@hover-scale);
+        text-shadow: @hover-shadow;
+        background: @gradient-text-hover;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+
+        &::before {
+          width: 100%;
+        }
+      }
+    }
+
+    // 为每个字符添加不同的动画延迟
+    .char:nth-child(1) {
+      transition-delay: 0.05s;
+    }
+    .char:nth-child(2) {
+      transition-delay: 0.1s;
+    }
+    .char:nth-child(3) {
+      transition-delay: 0.15s;
+    }
+    .char:nth-child(4) {
+      transition-delay: 0.2s;
+    }
+    .char:nth-child(5) {
+      transition-delay: 0.25s;
+    }
+    .char:nth-child(6) {
+      transition-delay: 0.3s;
+    }
+    .char:nth-child(7) {
+      transition-delay: 0.35s;
+    }
+    .char:nth-child(8) {
+      transition-delay: 0.4s;
+    }
+  }
+}

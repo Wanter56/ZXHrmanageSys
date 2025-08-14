@@ -1,0 +1,33 @@
+import React, { useState } from "react";
+import userpic from "../../common/img/user.jpg";
+import { Avatar, Space } from "antd";
+
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { Button, Layout } from "antd";
+
+const { Header } = Layout;
+
+const CommonHeader: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
+
+  return (
+    <Header>
+      <Button
+        type="text"
+        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        onClick={() => setCollapsed(!collapsed)}
+        style={{
+          fontSize: "16px",
+          width: 64,
+          height: 64,
+        }}
+      />
+      <Dropdown menu={{ items }}>
+        <Avatar size={36} src={userpic} />} />
+
+      </Dropdown>
+    </Header>
+  );
+};
+
+export default CommonHeader;

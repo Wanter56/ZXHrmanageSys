@@ -1,0 +1,66 @@
+export default [
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    label: "首页",
+    icon: "HomeOutlined",
+    url: "/dashboard",
+  },
+  {
+    path: "/accessment",
+    name: "accessment",
+    label: "考核管理",
+    icon: "ShopOutlined",
+    url: "/accessment",
+  },
+  {
+    path: "/attendance",
+    name: "attendance",
+    label: "考勤管理",
+    icon: "UserOutlined",
+    url: "/attendance",
+  },
+  {
+    path: "/attendanceInfo",
+    name: "attendanceInfo",
+    label: "考勤详情",
+    icon: "SettingOutlined",
+    url: "/attendanceInfo",
+  },
+  {
+    path: "/department",
+    name: "department",
+    label: "部门管理",
+    icon: "TeamOutlined",
+
+    url: "/department",
+  },
+  {
+    path: "/level",
+    name: "level",
+    label: "等级管理",
+    icon: "SettingOutlined",
+    url: "/level",
+  },
+  {
+    path: "/rewardRecord",
+    name: "rewardRecord",
+    label: "奖励记录",
+    icon: "SettingOutlined",
+    url: "/rewardRecord",
+  },
+  {
+    path: "/salary",
+    name: "salary",
+    label: "工资管理",
+    icon: "SettingOutlined",
+    url: "/salary",
+  },
+  {
+    path: "/staff",
+    name: "staff",
+    label: "员工管理",
+    icon: "SettingOutlined",
+    url: "/staff",
+  },
+];
