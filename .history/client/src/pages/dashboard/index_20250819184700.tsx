@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import useUserStore from "../../store/userStore";
 import "./dashboard.less";
 import { Card } from "antd";
-import MyTable from "../../components/Table";
+import CustomTable from "../../components/Table";
 import type { TableProps } from "antd";
 import type { TableItem } from "../../api/interface/user";
 
@@ -101,7 +101,7 @@ const DashBoard: React.FC = () => {
         )}
       </div>
 
-      <MyTable
+      <CustomTable<TableItem>
         className="table"
         columns={columns}
         // 确保数据结构与TableItem匹配

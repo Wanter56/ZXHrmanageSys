@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import useUserStore from "../../store/userStore";
 import "./dashboard.less";
-import { Card } from "antd";
-import MyTable from "../../components/Table";
+import { Card} from "antd";
+import MyTable from "../../components/Table"
 import type { TableProps } from "antd";
 import type { TableItem } from "../../api/interface/user";
 
@@ -22,7 +22,7 @@ const columns: TableProps<TableItem>["columns"] = [
 
 const DashBoard: React.FC = () => {
   // 解构所需状态和方法
-  const { otherUserData, fetchUsers, getUserStats, analyzeStaffData, fetchAnalyzeStaff } = useUserStore();
+  const { otherUserData, fetchUsers, getUserStats, analyzeStaffData, fetchAnalyzeStaff }= useUserStore();
 
   // 组件挂载时初始化数据
   useEffect(() => {
@@ -36,8 +36,15 @@ const DashBoard: React.FC = () => {
     };
     loadData();
   }, [fetchUsers, getUserStats, fetchAnalyzeStaff]); // 依赖项添加方法
-  const { ageMap, constellationList, departmentList, educationList, genderList, marriageList, wordingYearsMaps } =
-    analyzeStaffData;
+  const {
+    ageMap,
+    constellationList,
+    departmentList,
+    educationList,
+    genderList,
+    marriageList,
+    wordingYearsMaps,
+  } = analyzeStaffData;
   console.log(departmentList);
   return (
     <div className="dashboard">
@@ -54,54 +61,22 @@ const DashBoard: React.FC = () => {
         <Card.Grid>入职一年以内:{otherUserData.within1Year}人</Card.Grid>
       </Card>
 
-      <div style={{ display: "flex", width: "90%", border: "1px solid  ", margin: " 0 auto", marginTop: "30px" }}>
-        <Echart
-          style={{ height: "300px", width: "45%" }}
-          charData={genderList}
-          isAxisChart={false}
-          chartTitle={{ text: "员工性别占比:", left: "center" }}
-        />
-        <Echart
-          style={{ height: "300px", width: "45%" }}
-          charData={marriageList}
-          isAxisChart={false}
-          chartTitle={{ text: "员工婚姻情况:", left: "center" }}
-        />
+      <div style={{ display: "flex",width: "90%", border: "1px solid  ", margin: " 0 auto", marginTop: "30px" }}>
+        <Echart style={{ height: "300px", width: "45%" }} charData={genderList} isAxisChart={false} chartTitle={{text:"员工性别占比:",left:"center"}}/>
+        <Echart style={{ height: "300px", width: "45%" }} charData={marriageList} isAxisChart={false} chartTitle={{text:"员工婚姻情况:",left:"center"}} />
       </div>
       <div style={{ display: "flex", width: "90%", border: "1px solid  ", margin: " 0 auto", marginTop: "30px" }}>
-        <Echart
-          style={{ height: "300px", width: "45%" }}
-          charData={educationList}
-          isAxisChart={false}
-          chartTitle={{ text: "员工学历情况:", left: "center" }}
-        />
-        <Echart
-          style={{ height: "300px", width: "45%" }}
-          charData={constellationList}
-          isAxisChart={false}
-          chartTitle={{ text: "员工星座情况:", left: "center" }}
-        />
+        <Echart style={{ height: "300px", width: "45%" }} charData={educationList} isAxisChart={false} chartTitle={{text:"员工学历情况:",left:"center"}}/>
+        <Echart style={{ height: "300px", width: "45%" }} charData={constellationList} isAxisChart={false} chartTitle={{text:"员工星座情况:",left:"center"}}/>
       </div>
       <div style={{ display: "flex", width: "90%", border: "1px solid  ", margin: " 0 auto", marginTop: "30px" }}>
-        {ageMap && (
-          <Echart
-            style={{ height: "300px", width: "45%" }}
-            charData={ageMap}
-            isAxisChart={true}
-            chartTitle={{ text: "员工年龄情况:", left: "center" }}
-          />
-        )}
+        {ageMap && <Echart style={{ height: "300px", width: "45%" }} charData={ageMap} isAxisChart={true} chartTitle={{text:"员工年龄情况:",left:"center"}}/>}
         {departmentList && (
-          <Echart
-            style={{ height: "300px", width: "45%" }}
-            charData={departmentList}
-            isAxisChart={true}
-            chartTitle={{ text: "部门分布:", left: "center" }}
-          />
+          <Echart style={{ height: "300px", width: "45%" }} charData={departmentList} isAxisChart={true} chartTitle={{text:"部门分布:",left:"center"}}/>
         )}
       </div>
 
-      <MyTable
+      <MyTable<TableItem>
         className="table"
         columns={columns}
         // 确保数据结构与TableItem匹配
