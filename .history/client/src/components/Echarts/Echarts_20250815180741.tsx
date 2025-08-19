@@ -1,0 +1,13 @@
+import React from 'react';
+
+const Echart: React.FC = () => {
+  return (
+    <div>
+      <h1>Echarts Component</h1>
+      {/* Echarts implementation will go here */}
+    </div>
+  );
+}
+
+
+export default Echart;
