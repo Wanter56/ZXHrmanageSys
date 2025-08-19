@@ -26,21 +26,10 @@ const ProtectedRoute = ({ element, requireAdmin = false }) => {
 
   // 需要管理员权限但不是管理员时跳转404
   if (requireAdmin && !isAdmin()) {
-    return <Navigate to="/attendance" replace />;
+    return <Navigate to="/404" replace />;
   }
 
   return element;
-};
-
-// 新增：根据用户角色返回不同的首页
-const getHomePage = () => {
-  // 未登录状态不处理，由ProtectedRoute处理跳转
-  if (!localStorage.getItem("currentUser")) {
-    return null;
-  }
-
-  // 管理员显示管理员首页，普通用户显示用户首页
-  return isAdmin() ? <Navigate to="/dashboard" replace /> : <Navigate to="/attendance" replace />;
 };
 
 export const router = createBrowserRouter([
@@ -50,7 +39,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/404",
-    element: <NotFound />,
+    element: <NotFound />, // 直接渲染404，不做保护
   },
   {
     path: "*",
@@ -66,46 +55,44 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        // 修改：根据用户角色动态决定跳转页面
-        element: getHomePage(),
+        element: <Navigate to="/dashboard" replace />,
       },
       {
         path: "/dashboard",
-        element: <ProtectedRoute element={<DashBoard />} requireAdmin={true} />,
+        element: <DashBoard />,
       },
+
       {
         path: "/accessment",
-        element: <ProtectedRoute element={<AccessMent />} requireAdmin={false} />,
+        element: <AccessMent />,
       },
       {
         path: "/attendance",
-        element: <ProtectedRoute element={<Attendance />} requireAdmin={false} />,
+        element: <Attendance />,
       },
       {
         path: "/attendanceInfo",
-        element: <ProtectedRoute element={<AttendanceInfo />} requireAdmin={false} />,
+        element: <AttendanceInfo />,
       },
       {
         path: "/department",
-        // 修改：部门页面通常需要管理员权限
-        element: <ProtectedRoute element={<Department />} requireAdmin={true} />,
+        element: <Department />,
       },
       {
         path: "/level",
-        element: <ProtectedRoute element={<Level />} requireAdmin={false} />,
+        element: <Level />,
       },
       {
         path: "/rewardRecord",
-        element: <ProtectedRoute element={<RewardRecord />} requireAdmin={false} />,
+        element: <RewardRecord />,
       },
       {
         path: "/salary",
-        element: <ProtectedRoute element={<Salary />} requireAdmin={false} />,
+        element: <Salary />,
       },
       {
         path: "/staff",
-        // 修改：员工管理通常需要管理员权限
-        element: <ProtectedRoute element={<Staff />} requireAdmin={true} />,
+        element: <Staff />,
       },
     ],
   },

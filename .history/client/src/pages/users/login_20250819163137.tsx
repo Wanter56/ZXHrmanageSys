@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import SmCodeLogin from "./components/SmCodeLogin";
@@ -43,16 +43,9 @@ const Login: React.FC = function () {
   const [type, setType] = useState(0);
   const fromPath = "/dashboard";
   const [usersList, setUsersList] = useState([]);
-  useEffect(() => {
-    // 组件挂载时只执行一次
-    getUsers()
-      .then((res) => {
-        setUsersList(res.data);
-      })
-      .catch((error) => {
-        console.error("获取用户列表失败:", error);
-      });
-  }, []); // 空依赖数组 → 仅在组件首次渲染时执行
+  getUsers().then((res) => {
+    setUsersList(res.data);
+  });
 
   //表单完成输入之后的提交事件
   const submitUserInfo = (data: any) => {

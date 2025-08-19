@@ -5,7 +5,7 @@ export default [
     label: "员工分析",
     icon: "HomeOutlined",
     url: "/dashboard",
-    requireAdmin: true, //仅管理员可见
+    requireAdmin: true //仅管理员可见
   },
   {
     path: "/attendance",
@@ -13,7 +13,7 @@ export default [
     label: "出勤统计",
     icon: "ClockCircleOutlined",
     url: "/attendance",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
 
   {
@@ -22,7 +22,7 @@ export default [
     label: "员工",
     icon: "TeamOutlined",
     url: "/staff",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
   {
     path: "/department",
@@ -30,7 +30,7 @@ export default [
     label: "部门",
     icon: "PartitionOutlined",
     url: "/department",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
   {
     path: "/level",
@@ -38,7 +38,7 @@ export default [
     label: "职级",
     icon: "AimOutlined",
     url: "/level",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
   {
     path: "/accessment",
@@ -46,7 +46,7 @@ export default [
     label: "绩效考核",
     icon: "ContainerOutlined",
     url: "/accessment",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
   {
     path: "/salary",
@@ -54,7 +54,7 @@ export default [
     label: "调薪记录",
     icon: "MoneyCollectOutlined",
     url: "/salary",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
   {
     path: "/rewardRecord",
@@ -62,7 +62,7 @@ export default [
     label: "奖励记录",
     icon: "ProjectOutlined",
     url: "/rewardRecord",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
   {
     path: "/attendanceInfo",
@@ -70,6 +70,6 @@ export default [
     label: "考勤信息",
     icon: "LineChartOutlined",
     url: "/attendanceInfo",
-    requireAdmin: false, // 所有用户可见
+    requireAdmin: false // 所有用户可见
   },
 ];

@@ -26,7 +26,7 @@ const ProtectedRoute = ({ element, requireAdmin = false }) => {
 
   // 需要管理员权限但不是管理员时跳转404
   if (requireAdmin && !isAdmin()) {
-    return <Navigate to="/attendance" replace />;
+    return <Navigate to="/level" replace />;
   }
 
   return element;

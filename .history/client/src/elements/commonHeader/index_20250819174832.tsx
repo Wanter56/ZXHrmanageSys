@@ -1,9 +1,5 @@
 import React from "react";
-
-// 引入权限函数
-import { isAdmin } from "../../utils/auth";
 import adminpic from "../../common/img/user.jpg";
-import userpic from "../../common/img/default_avatar.png";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Dropdown, Avatar } from "antd";
 import "./commonHeader.less";
@@ -49,7 +45,7 @@ const CommonHeader: React.FC = () => {
         }}
       />
       <Dropdown menu={{ items }}>
-        {isAdmin()?<Avatar size={36} src={adminpic} />:<Avatar size={36} src={userpic} />}
+        <Avatar size={36} src={adminpic} />
       </Dropdown>
     </Header>
   );

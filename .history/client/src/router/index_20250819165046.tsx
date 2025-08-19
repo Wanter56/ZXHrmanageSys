@@ -26,7 +26,7 @@ const ProtectedRoute = ({ element, requireAdmin = false }) => {
 
   // 需要管理员权限但不是管理员时跳转404
   if (requireAdmin && !isAdmin()) {
-    return <Navigate to="/attendance" replace />;
+    return <Navigate to="/404" replace />;
   }
 
   return element;
@@ -40,7 +40,7 @@ const getHomePage = () => {
   }
 
   // 管理员显示管理员首页，普通用户显示用户首页
-  return isAdmin() ? <Navigate to="/dashboard" replace /> : <Navigate to="/attendance" replace />;
+  return isAdmin() ? <Navigate to="/dashboard" replace /> : <Navigate to="/attendanceInfo" replace />;
 };
 
 export const router = createBrowserRouter([

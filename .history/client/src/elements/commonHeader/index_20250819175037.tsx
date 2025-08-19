@@ -49,7 +49,7 @@ const CommonHeader: React.FC = () => {
         }}
       />
       <Dropdown menu={{ items }}>
-        {isAdmin()?<Avatar size={36} src={adminpic} />:<Avatar size={36} src={userpic} />}
+        {isAdmin?<Avatar size={36} src={adminpic} />:<Avatar size={36} src={userpic} />}
       </Dropdown>
     </Header>
   );
