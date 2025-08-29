@@ -1,5 +1,5 @@
 import IconMap from "../Icon/IconMap";
-import { LoginRule } from "../../../utils/rules";
+import { LoginRule } from "@utils/rules";
 
 function AccountLogin({ Input, FormItem }: { Input: any; FormItem: any }) {
   return (

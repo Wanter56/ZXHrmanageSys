@@ -1,6 +1,3 @@
 node_modules
-# 忽略 VS Code 配置目录
 .vscode/
-
-# 忽略本地历史备份目录（如 Local History 插件生成）
 .history/

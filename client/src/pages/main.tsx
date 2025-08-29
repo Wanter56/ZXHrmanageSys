@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import CommonSider from "../elements/commonSider";
-import CommonHeader from "../elements/commonHeader";
+import CommonSider from "@elements/commonSider";
+import CommonHeader from "@elements/commonHeader";
 
 import { Layout, theme } from "antd";
 

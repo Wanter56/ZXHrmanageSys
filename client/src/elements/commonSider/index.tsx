@@ -61,14 +61,12 @@ const CommonSider = () => {
   };
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Sider trigger={null} collapsible collapsed={collapsed} className="common-sider">
       <h3 className="app-name">{collapsed ? "织信" : "织信人事系统"}</h3>
       <Menu
-        theme="dark"
+        className="menu"
         mode="inline"
-        // 优化：使用当前路径作为默认选中项，而不是固定的"1"
         defaultSelectedKeys={[window.location.pathname]}
-        style={{ height: "100%" }}
         items={menuItems} // 使用状态中的菜单数据
         onClick={selectMenu}
       />

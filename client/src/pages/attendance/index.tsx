@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-function Attendance() {
+const Attendance: React.FC = () => {
   return (
     <div>
-      <h1>Attendance</h1>
+      <h1>考勤管理</h1>
     </div>
   );
-}
+};
 
 export default Attendance;

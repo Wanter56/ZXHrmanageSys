@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import useUserStore from "../../store/userStore";
+import useUserStore from "@store/userStore";
 import "./dashboard.less";
 import { Card } from "antd";
-import MyTable from "../../components/Table";
+import MyTable from "@components/Table";
 import type { TableProps } from "antd";
-import type { TableItem } from "../../api/interface/user";
+import type { User } from "@api/interface/user";
 
 //引入Echart组件
-import Echart from "../../components/Echart";
+import Echart from "@components/Echart";
 
-const columns: TableProps<TableItem>["columns"] = [
+const columns: TableProps<User>["columns"] = [
   {
     title: "姓名",
     dataIndex: "userName",
@@ -38,7 +38,6 @@ const DashBoard: React.FC = () => {
   }, [fetchUsers, getUserStats, fetchAnalyzeStaff]); // 依赖项添加方法
   const { ageMap, constellationList, departmentList, educationList, genderList, marriageList, wordingYearsMaps } =
     analyzeStaffData;
-  console.log(departmentList);
   return (
     <div className="dashboard">
       <div className="title">员工分析:</div>
@@ -59,13 +58,13 @@ const DashBoard: React.FC = () => {
           style={{ height: "300px", width: "45%" }}
           charData={genderList}
           isAxisChart={false}
-          chartTitle={{ text: "员工性别占比:", left: "center" }}
+          charTitle={{ text: "员工性别占比:", left: "center" }}
         />
         <Echart
           style={{ height: "300px", width: "45%" }}
           charData={marriageList}
           isAxisChart={false}
-          chartTitle={{ text: "员工婚姻情况:", left: "center" }}
+          charTitle={{ text: "员工婚姻情况:", left: "center" }}
         />
       </div>
       <div style={{ display: "flex", width: "90%", border: "1px solid  ", margin: " 0 auto", marginTop: "30px" }}>
@@ -73,13 +72,13 @@ const DashBoard: React.FC = () => {
           style={{ height: "300px", width: "45%" }}
           charData={educationList}
           isAxisChart={false}
-          chartTitle={{ text: "员工学历情况:", left: "center" }}
+          charTitle={{ text: "员工学历情况:", left: "center" }}
         />
         <Echart
           style={{ height: "300px", width: "45%" }}
           charData={constellationList}
           isAxisChart={false}
-          chartTitle={{ text: "员工星座情况:", left: "center" }}
+          charTitle={{ text: "员工星座情况:", left: "center" }}
         />
       </div>
       <div style={{ display: "flex", width: "90%", border: "1px solid  ", margin: " 0 auto", marginTop: "30px" }}>
@@ -88,7 +87,7 @@ const DashBoard: React.FC = () => {
             style={{ height: "300px", width: "45%" }}
             charData={ageMap}
             isAxisChart={true}
-            chartTitle={{ text: "员工年龄情况:", left: "center" }}
+            charTitle={{ text: "员工年龄情况:", left: "center" }}
           />
         )}
         {departmentList && (
@@ -96,7 +95,7 @@ const DashBoard: React.FC = () => {
             style={{ height: "300px", width: "45%" }}
             charData={departmentList}
             isAxisChart={true}
-            chartTitle={{ text: "部门分布:", left: "center" }}
+            charTitle={{ text: "部门分布:", left: "center" }}
           />
         )}
       </div>

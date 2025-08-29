@@ -1,13 +1,13 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import SmCodeLogin from "./components/SmCodeLogin";
 import AccountLogin from "./components/AccountLogin";
 import IconMap from "./Icon/IconMap";
-import { getUsers } from "../../api/dataApi/usersApi";
+import { getUsers } from "@api/dataApi/usersApi";
 //使用antd的form表单的相关组件
 import { Button, Form, Input, Row, Col, message } from "antd";
-import logImg from "../../common/img/logo.svg";
+import logImg from "@common/img/logo.svg";
 import "./css/login.less";
 
 const FormItem = Form.Item;
@@ -80,7 +80,6 @@ const Login: React.FC = function () {
       const matchedUser = validUsers.find(
         (user: User) => user.accountName.trim() === inputAccount && user.password === inputPassword
       );
-
       // 4. 根据匹配结果处理
       if (matchedUser) {
         // 登录成功后的处理
@@ -88,9 +87,8 @@ const Login: React.FC = function () {
           localStorage.setItem("currentUser", JSON.stringify(matchedUser));
           message.success("登录成功");
           // 新增：存储用户角色标识
-          const isAdmin = matchedUser.userName === "管理员";
+          const isAdmin = matchedUser.identity === 1;
           localStorage.setItem("userRole", isAdmin ? "admin" : "user");
-
           message.success("登录成功");
           navigate(fromPath, { replace: true });
         }

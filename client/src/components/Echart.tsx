@@ -20,7 +20,7 @@ interface EchartProps {
   charTitle: chartTitle;
 }
 
-const Echart: React.FC<EchartProps> = ({ style = { echartStyle }, charData, isAxisChart = true, chartTitle }) => {
+const Echart: React.FC<EchartProps> = ({ style, charData, isAxisChart = true, charTitle }) => {
   const echartRef = useRef<HTMLDivElement>(null);
   const echartObj = useRef<echarts.ECharts | null>(null);
 
@@ -62,8 +62,8 @@ const Echart: React.FC<EchartProps> = ({ style = { echartStyle }, charData, isAx
             },
           ], // 容错：默认空数组
           title: {
-            text: chartTitle.text,
-            left: chartTitle.left,
+            text: charTitle.text,
+            left: charTitle.left,
           },
         };
       } else {
@@ -80,8 +80,8 @@ const Echart: React.FC<EchartProps> = ({ style = { echartStyle }, charData, isAx
             },
           ],
           title: {
-            text: chartTitle.text,
-            left: chartTitle.left,
+            text: charTitle.text,
+            left: charTitle.left,
           },
         };
       }

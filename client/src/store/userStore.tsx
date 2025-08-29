@@ -1,14 +1,11 @@
 import { create } from "zustand";
-
-import { getUsers } from "../api/dataApi/usersApi";
-import { getAnalyzeStaff } from "../api/dataApi/analyzeStaffApi";
-
 import { immer } from "zustand/middleware/immer";
 
-
+import { getUsers } from "@api/dataApi/usersApi";
+import { getAnalyzeStaff } from "@api/dataApi/analyzeStaffApi";
 
 //引入自定义函数
-import { countWorkYears } from "../common/func/user/useWorkerStats";
+import { countWorkYears } from "@common/func/user/useWorkerStats";
 const useUserStore = create()(
   immer((set, get) => ({
     usersList: [],
@@ -28,7 +25,7 @@ const useUserStore = create()(
       try {
         const response = await getUsers();
         set({ usersList: response.data, isloading: false });
-      } catch (error) {
+      } catch (error: any) {
         set({ error: error.message, isloading: false });
       }
     },
@@ -60,15 +57,15 @@ const useUserStore = create()(
     },
 
     //analyzeStaffData的数据请求
-      fetchAnalyzeStaff: async () => {
-        set({ isloading: true, error: null });
-        try {
-          const response = await getAnalyzeStaff();      
-          set({ analyzeStaffData: response.data.data, isloading: false });
-        } catch (error) {
-          set({ error: error.message, isloading: false });
-        }
+    fetchAnalyzeStaff: async () => {
+      set({ isloading: true, error: null });
+      try {
+        const response = await getAnalyzeStaff();
+        set({ analyzeStaffData: response.data.data, isloading: false });
+      } catch (error: any) {
+        set({ error: error.message, isloading: false });
       }
+    },
   }))
 );
 

@@ -1,8 +1,10 @@
 import React from "react";
-import { Table } from "antd";
-import  {User}  from "../api/interface/user";
+import { Table, type TableProps } from "antd";
+import { User } from "@api/interface/user";
 
-const MyTable: React.FC = (props) => {
+type MyTableProps = TableProps<User>;
+
+const MyTable: React.FC<MyTableProps> = (props) => {
   return <Table<User> {...props} bordered size="middle" scroll={{ y: 47 * 5 }} />;
 };
 

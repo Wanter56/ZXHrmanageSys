@@ -55,9 +55,12 @@ const SalaryAdjustment = mongoose.model("SalaryAdjustment", SalaryAdjustmentSche
 // 8. users 集合模型
 const UserSchema = new mongoose.Schema({}, { collection: "users", strict: false });
 const User = mongoose.model("User", UserSchema);
-// 8. users 集合模型
+// 9. analyzeStaff 集合模型
 const AnalyzeStaffSchema = new mongoose.Schema({}, { collection: "analyzeStaff", strict: false });
 const AnalyzeStaff = mongoose.model("AnalyzeStaff", AnalyzeStaffSchema);
+// 10. students 集合模型
+const StudentSchema = new mongoose.Schema({}, { collection: "students", strict: false });
+const Student = mongoose.model("Student", StudentSchema);
 
 // ---------------------- 定义各个集合的查询接口 ----------------------
 
@@ -149,6 +152,15 @@ app.get("/staff/analyzeStaff", async (req, res) => {
     res.status(500).json({ success: false, message: "查询失败：" + err.message });
   }
 });
+// 10. students 集合查询接口
+app.get("/staff/students", async (req, res) => {
+  try {
+    const data = await Student.find();
+    res.json({ success: true, count: data.length, data });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "查询失败：" + err.message });
+  }
+});
 
 // ---------------------- 启动服务器 ----------------------
 const port = 27017;
@@ -164,4 +176,5 @@ app.listen(port, () => {
   console.log(" - /staff/salaryadjustments");
   console.log(" - /staff/users");
   console.log(" - /staff/analyzeStaff");
+  console.log(" - /staff/students");
 });
