@@ -1,38 +1,54 @@
-import React, { useEffect, useState } from "react"; // 无需额外的useState
-import useStudentStore from "@store/studentStore";
+import React, { use, useEffect, useState } from "react"; // 无需额外的useState
 
-import { Table, Input, Button, Select, Modal, Form } from "antd";
+//导入管理学生的API
+import { getStudents, addStudent, updateStudent, deleteStudent } from "@api/dataApi/studentsApi";
+//学生类型
+import type { Student } from "@store/studentStore";
+
+import { Table, Input, Button, Select, Modal, Form, Popconfirm } from "antd";
 import type { TableColumnsType } from "antd";
 
 import "./staff.less";
 
 const { Search } = Input;
 const Staff: React.FC = () => {
-  const { studentList, getStudentList } = useStudentStore();
-  // 弹窗状态
+  //表格数据
+  const [dataSource, setDataSource] = useState([]);
+  // 控制弹窗打开/关闭状态
   const [visible, setVisible] = useState(false);
   //控制按钮保存/新增
   const [isAdd, setIsAdd] = useState(true);
-  // 编辑用户时的当前数据，添加则为[]
-  const [currentStu, setCurrentStu] = useState([]);
+  //创建form实例
+  const [form] = Form.useForm();
 
-  const handleEdit = () => {
-    setIsAdd(false);
-    setVisible(true);
-    console.log();
-  };
-  const handleAdd = () => {
-    setIsAdd(true);
-    setVisible(true);
-  };
-  const handleDelete = () => {};
-
-  // 关键：组件挂载时主动触发数据请求
+  //学生的CRUD操作
+  //获取表格数据所有学生
   useEffect(() => {
-    getStudentList(); // 调用store中的方法，从接口获取学生数据
-  }, [getStudentList]); // 依赖getStudentList，确保方法不变时只执行一次
-  // 优化：空数据时显示提示，避免表格空白
-  const dataSource = studentList;
+    getStudents().then((res) => {
+      console.log(res);
+      setDataSource(res.data[0].students);
+    });
+  }, []);
+  //编辑和新增函数
+  const handleClick = (type: string, rowData?: Student) => {
+    if (type === "edit" && rowData) {
+      setIsAdd(false);
+      setVisible(true);
+      form.setFieldsValue(rowData); // 使用form实例设置表单初始值
+    } else if (type === "add") {
+      setIsAdd(true);
+      setVisible(true);
+      form.resetFields();
+    }
+  };
+  const handleDelete = (rowData: Student) => {
+    console.log(rowData);
+  };
+
+  //表单提交函数
+  const handleFinish = (e) => {
+    console.log(e);
+  };
 
   const columns: TableColumnsType = [
     {
@@ -68,21 +84,33 @@ const Staff: React.FC = () => {
     {
       title: "操作",
       width: 150,
-      render: (text, record) => (
-        <div>
-          <button style={{ marginRight: "10px" }} onClick={handleEdit}>
-            详情
-          </button>
-          <button onClick={handleDelete}>删除</button>
-        </div>
-      ),
+      render: (rowData: Student) => {
+        return (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Button style={{ marginRight: "10px" }} onClick={() => handleClick("edit", rowData)}>
+              详情
+            </Button>
+            <Popconfirm
+              title="提示"
+              description="此操作将删除该用户，是否继续？"
+              okText="确认"
+              cancelText="取消"
+              onConfirm={() => handleDelete(rowData)}
+            >
+              <Button type="primary" danger>
+                删除
+              </Button>
+            </Popconfirm>
+          </div>
+        );
+      },
     },
   ];
 
   return (
     <div style={{ padding: "20px" }} className="staff-container">
       <div className="control-container">
-        <Button type="primary" style={{ margin: 20, width: "85px", marginLeft: 10 }} onClick={handleAdd}>
+        <Button type="primary" style={{ margin: 20, width: "85px", marginLeft: 10 }} onClick={() => handleClick("add")}>
           添加
         </Button>
         <Search placeholder="" enterButton style={{ marginBottom: 20 }} />
@@ -143,7 +171,7 @@ const Staff: React.FC = () => {
         onCancel={() => setVisible(false)}
         title={isAdd ? "添加学生" : "编辑学生"}
       >
-        <Form layout="vertical" initialValues={{ age: "", phone: "", email: "" }}>
+        <Form layout="vertical" initialValues={{ age: "", phone: "", email: "" }} form={form} onFinish={handleFinish}>
           <Form.Item name="name" label="姓名" rules={[{ required: true, message: "请输入学生姓名" }]}>
             <Input placeholder="请输入姓名" />
           </Form.Item>

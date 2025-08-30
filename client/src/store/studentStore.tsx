@@ -1,5 +1,5 @@
 // 1. 首先定义明确的类型（避免any，提升可维护性）
-interface Student {
+export interface Student {
   id: string; // 学生唯一标识（从之前数据看存在字符串ID，如"d119"）
   name: string;
   age: string | number; // 兼容之前数据中age的字符串/数字格式
@@ -36,11 +36,6 @@ interface StudentStore {
 
   // 获取学生列表：支持手动传参（如分页、筛选，预留扩展性）
   getStudentList: (params?: Record<string, any>) => Promise<void>;
-
-  // 可选：新增/编辑/删除学生的方法（按需添加，完善CRUD）
-  addStudent: (student: Omit<Student, "id">) => void;
-  updateStudent: (id: string, student: Partial<Student>) => void;
-  deleteStudent: (id: string) => void;
 }
 
 const useStudentStore = create<StudentStore>()(
@@ -92,33 +87,6 @@ const useStudentStore = create<StudentStore>()(
         message.error(errorMsg);
         console.error("获取学生列表异常:", error); // 控制台打印详细错误，便于调试
       }
-    },
-
-    // 新增学生（基于immer的不可变更新）
-    addStudent: (student) => {
-      // 生成临时ID（实际项目建议用接口返回的ID）
-      const newStudent = { ...student, id: `student_${Date.now()}` };
-      set((state) => {
-        state.studentList.push(newStudent);
-      });
-    },
-
-    // 编辑学生（根据ID匹配，更新部分字段）
-    updateStudent: (id, student) => {
-      set((state) => {
-        const targetIndex = state.studentList.findIndex((item) => item.id === id);
-        if (targetIndex !== -1) {
-          // 合并旧数据和新数据（避免覆盖未修改的字段）
-          state.studentList[targetIndex] = { ...state.studentList[targetIndex], ...student };
-        }
-      });
-    },
-
-    // 删除学生（根据ID过滤）
-    deleteStudent: (id) => {
-      set((state) => {
-        state.studentList = state.studentList.filter((item) => item.id !== id);
-      });
     },
   }))
 );
