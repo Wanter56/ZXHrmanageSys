@@ -24,11 +24,12 @@ const Staff: React.FC = () => {
   //学生的CRUD操作
   //获取表格数据所有学生
   useEffect(() => {
-    getStudents().then((res) => {
-      console.log(res);
-      setDataSource(res.data[0].students);
-    });
+    // 若 axios 拦截器没解包：res.data 就是学生数组
+    getStudents().then((res) => setDataSource(res.data || []));
+    // 若你在拦截器里已经 return response.data：
+    // 那这里 res 就是 {success,count,data}，依然写 setDataSource(res.data || [])
   }, []);
+  console.log(dataSource);
   //编辑和新增函数
   const handleClick = (type: string, rowData?: Student) => {
     if (type === "edit" && rowData) {
@@ -48,6 +49,15 @@ const Staff: React.FC = () => {
   //表单提交函数
   const handleFinish = (e) => {
     console.log(e);
+    addStudent(e).then((res) => {
+      console.log(res);
+      setVisible(false);
+      // 提交后刷新表格数据
+      getStudents().then((res) => {
+        console.log(res);
+        setDataSource(res.data[0].students);
+      });
+    });
   };
 
   const columns: TableColumnsType = [

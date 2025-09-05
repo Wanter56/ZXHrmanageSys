@@ -1,6 +1,6 @@
 import axios from "axios";
 const request = axios.create({
-  baseURL: "http://localhost:27017/staff", //基础路径
+  baseURL: "http://localhost:3000/staff", //基础路径
   headers: {
     "Content-Type": "application/json",
   },

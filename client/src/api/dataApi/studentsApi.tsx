@@ -8,25 +8,8 @@ export const getStudents = () => {
 };
 
 //学生信息CRUD 的API
-export const addStudent = (data: any) => {
-  return request.request({
-    url: "/students",
-    method: "post",
-    data,
-  });
-};
-
-export const updateStudent = (id: number, data: any) => {
-  return request.request({
-    url: `/students/${id}`,
-    method: "put",
-    data,
-  });
-};
-
-export const deleteStudent = (id: number) => {
-  return request.request({
-    url: `/students/${id}`,
-    method: "delete",
-  });
-};
+// studentsApi.tsx
+export const addStudent = (data: any) => request.request({ url: "/students", method: "post", data });
+export const updateStudent = (id: string, data: any) =>
+  request.request({ url: `/students/${id}`, method: "put", data });
+export const deleteStudent = (id: string) => request.request({ url: `/students/${id}`, method: "delete" });

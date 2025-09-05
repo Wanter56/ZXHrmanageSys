@@ -153,17 +153,57 @@ app.get("/staff/analyzeStaff", async (req, res) => {
   }
 });
 // 10. students 集合查询接口
+// ---- routes ----
+// GET 所有学生
+// 原来：find() -> 返回形如 [{ classes:[], students:[...] }]
 app.get("/staff/students", async (req, res) => {
   try {
-    const data = await Student.find();
-    res.json({ success: true, count: data.length, data });
+    const docs = await Student.find(); // docs: Array
+    const students = docs[0]?.students ?? []; // 解包
+    res.json({ success: true, count: students.length, data: students });
   } catch (err) {
     res.status(500).json({ success: false, message: "查询失败：" + err.message });
   }
 });
 
+// ✅ 新增学生（这就是你现在 404 缺的接口）
+app.post("/staff/students", async (req, res) => {
+  try {
+    const doc = await Student.findOne(); // 假设只有一条总文档
+    if (!doc) return res.status(500).json({ success: false, message: "未找到容器文档" });
+    doc.students = doc.students || [];
+    doc.students.unshift(req.body); // 或 push
+    await doc.save();
+    res.json({ success: true, data: req.body });
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+// 更新学生
+app.put("/staff/students/:id", async (req, res) => {
+  try {
+    const updated = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ success: false, message: "未找到该学生" });
+    res.json({ success: true, data: updated });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "更新失败：" + err.message });
+  }
+});
+
+// 删除学生
+app.delete("/staff/students/:id", async (req, res) => {
+  try {
+    const deleted = await Student.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ success: false, message: "未找到该学生" });
+    res.json({ success: true, data: deleted });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "删除失败：" + err.message });
+  }
+});
+
 // ---------------------- 启动服务器 ----------------------
-const port = 27017;
+const port = 3000;
 app.listen(port, () => {
   console.log(`🚀 后端服务已启动，运行在 http://localhost:${port}`);
   console.log("📌 可访问的接口列表：");
