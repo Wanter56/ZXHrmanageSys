@@ -1,220 +1,41 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 
-// 启用跨域中间件，允许前端跨域请求
+// 1. 加载中间件
 app.use(cors());
-// 解析 JSON 格式的请求体
 app.use(express.json());
 
-// 连接 MongoDB 数据库，指定连接的数据库为 staff
-mongoose
-  .connect("mongodb://localhost:27017/staff", {
-    // 新版 MongoDB 驱动已不需要这些旧参数，可删除以消除警告
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("✅ 成功连接到 MongoDB 的 staff 数据库");
-  })
-  .catch((err) => {
-    console.error("❌ MongoDB 数据库连接失败：", err);
-  });
+// 2. 连接数据库（引入配置）
+require("./config/db");
 
-// ---------------------- 定义各个集合的数据模型 ----------------------
+// 3. 引入所有路由（按模块引入）
+const accessmentRoutes = require("./routes/accessmentRoutes");
+const attendanceRoutes = require("./routes/attendanceRoutes");
+const departmentRoutes = require("./routes/departmentRoutes");
+const levelRoutes = require("./routes/levelRoutes");
+const rewardAndPunishmentRoutes = require("./routes/rewardAndPunishmentRoutes");
+const routerRoutes = require("./routes/routerRoutes");
+const salaryAdjustmentRoutes = require("./routes/salaryAdjustmentRoutes");
+const userRoutes = require("./routes/userRoutes");
+const analyzeStaffRoutes = require("./routes/analyzeStaffRoutes");
+const studentRoutes = require("./routes/studentRoutes");
 
-// 1. accessments 集合模型
-const AccessmentSchema = new mongoose.Schema({}, { collection: "accessments", strict: false });
-const Accessment = mongoose.model("Accessment", AccessmentSchema);
+// 4. 注册路由（统一加 /staff 前缀，保持原有接口路径）
+app.use("/staff", accessmentRoutes);
+app.use("/staff", attendanceRoutes);
+app.use("/staff", departmentRoutes);
+app.use("/staff", levelRoutes);
+app.use("/staff", rewardAndPunishmentRoutes);
+app.use("/staff", routerRoutes);
+app.use("/staff", salaryAdjustmentRoutes);
+app.use("/staff", userRoutes);
+app.use("/staff", analyzeStaffRoutes);
+app.use("/staff", studentRoutes);
 
-// 2. attendances 集合模型
-const AttendanceSchema = new mongoose.Schema({}, { collection: "attendances", strict: false });
-const Attendance = mongoose.model("Attendance", AttendanceSchema);
-
-// 3. deparments 集合模型
-const DepartmentSchema = new mongoose.Schema({}, { collection: "deparments", strict: false });
-const Department = mongoose.model("Department", DepartmentSchema);
-
-// 4. levels 集合模型
-const LevelSchema = new mongoose.Schema({}, { collection: "levels", strict: false });
-const Level = mongoose.model("Level", LevelSchema);
-
-// 5. rewardandpunishments 集合模型
-const RewardAndPunishmentSchema = new mongoose.Schema({}, { collection: "rewardandpunishments", strict: false });
-const RewardAndPunishment = mongoose.model("RewardAndPunishment", RewardAndPunishmentSchema);
-
-// 6. routers 集合模型
-const RouterSchema = new mongoose.Schema({}, { collection: "routers", strict: false });
-const Router = mongoose.model("Router", RouterSchema);
-
-// 7. salaryadjustments 集合模型
-const SalaryAdjustmentSchema = new mongoose.Schema({}, { collection: "salaryadjustments", strict: false });
-const SalaryAdjustment = mongoose.model("SalaryAdjustment", SalaryAdjustmentSchema);
-
-// 8. users 集合模型
-const UserSchema = new mongoose.Schema({}, { collection: "users", strict: false });
-const User = mongoose.model("User", UserSchema);
-// 9. analyzeStaff 集合模型
-const AnalyzeStaffSchema = new mongoose.Schema({}, { collection: "analyzeStaff", strict: false });
-const AnalyzeStaff = mongoose.model("AnalyzeStaff", AnalyzeStaffSchema);
-// 10. students 集合模型
-const StudentSchema = new mongoose.Schema({}, { collection: "students", strict: false });
-const Student = mongoose.model("Student", StudentSchema);
-
-// ---------------------- 定义各个集合的查询接口 ----------------------
-
-// 1. accessments 集合查询接口
-app.get("/staff/accessments", async (req, res) => {
-  try {
-    const data = await Accessment.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// 2. attendances 集合查询接口
-app.get("/staff/attendances", async (req, res) => {
-  try {
-    const data = await Attendance.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// 3. deparments 集合查询接口
-app.get("/staff/departments", async (req, res) => {
-  try {
-    const data = await Department.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// 4. levels 集合查询接口
-app.get("/staff/levels", async (req, res) => {
-  try {
-    const data = await Level.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// 5. rewardandpunishments 集合查询接口
-app.get("/staff/rewardandpunishments", async (req, res) => {
-  try {
-    const data = await RewardAndPunishment.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// 6. routers 集合查询接口
-app.get("/staff/routers", async (req, res) => {
-  try {
-    const data = await Router.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// 7. salaryadjustments 集合查询接口
-app.get("/staff/salaryadjustments", async (req, res) => {
-  try {
-    const data = await SalaryAdjustment.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// 8. users 集合查询接口
-app.get("/staff/users", async (req, res) => {
-  try {
-    const data = await User.find();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-// 9. analyzeStaff 集合查询接口
-app.get("/staff/analyzeStaff", async (req, res) => {
-  try {
-    const data = await AnalyzeStaff.findOne();
-    res.json({ success: true, count: data.length, data });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-// 10. students 集合查询接口
-// ---- routes ----
-// GET 所有学生
-// 原来：find() -> 返回形如 [{ classes:[], students:[...] }]
-app.get("/staff/students", async (req, res) => {
-  try {
-    const docs = await Student.find(); // docs: Array
-    const students = docs[0]?.students ?? []; // 解包
-    res.json({ success: true, count: students.length, data: students });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "查询失败：" + err.message });
-  }
-});
-
-// ✅ 新增学生（这就是你现在 404 缺的接口）
-app.post("/staff/students", async (req, res) => {
-  try {
-    const doc = await Student.findOne(); // 假设只有一条总文档
-    if (!doc) return res.status(500).json({ success: false, message: "未找到容器文档" });
-    doc.students = doc.students || [];
-    doc.students.unshift(req.body); // 或 push
-    await doc.save();
-    res.json({ success: true, data: req.body });
-  } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
-  }
-});
-
-// 更新学生
-app.put("/staff/students/:id", async (req, res) => {
-  try {
-    const updated = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updated) return res.status(404).json({ success: false, message: "未找到该学生" });
-    res.json({ success: true, data: updated });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "更新失败：" + err.message });
-  }
-});
-
-// 删除学生
-app.delete("/staff/students/:id", async (req, res) => {
-  try {
-    const deleted = await Student.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ success: false, message: "未找到该学生" });
-    res.json({ success: true, data: deleted });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "删除失败：" + err.message });
-  }
-});
-
-// ---------------------- 启动服务器 ----------------------
+// 5. 启动服务器
 const port = 3000;
 app.listen(port, () => {
   console.log(`🚀 后端服务已启动，运行在 http://localhost:${port}`);
-  console.log("📌 可访问的接口列表：");
-  console.log(" - /staff/accessments");
-  console.log(" - /staff/attendances");
-  console.log(" - /staff/departments");
-  console.log(" - /staff/levels");
-  console.log(" - /staff/rewardandpunishments");
-  console.log(" - /staff/routers");
-  console.log(" - /staff/salaryadjustments");
-  console.log(" - /staff/users");
-  console.log(" - /staff/analyzeStaff");
-  console.log(" - /staff/students");
+  console.log("📌 接口前缀统一为：/staff（如 /staff/students）");
 });

@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "antd-style": "^3.7.1"
+    "antd-style": "^3.7.1",
+    "mongoose": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^24.3.0"

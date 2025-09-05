@@ -1,231 +1,146 @@
-import React, { use, useEffect, useState } from "react"; // 无需额外的useState
-
-//导入管理学生的API
+import React, { useEffect, useState } from "react";
 import { getStudents, addStudent, updateStudent, deleteStudent } from "@api/dataApi/studentsApi";
-//学生类型
-import type { Student } from "@store/studentStore";
+import { message } from "antd";
+import type { FormProps } from "antd";
+import { Student } from "@api/dataApi/studentsApi";
 
-import { Table, Input, Button, Select, Modal, Form, Popconfirm } from "antd";
-import type { TableColumnsType } from "antd";
-
+//自定义组件和样式
 import "./staff.less";
-
-const { Search } = Input;
+import StuModal from "./components/Modal";
+import StuTable from "./components/StuTable";
+import Filter from "./components/Filter";
 const Staff: React.FC = () => {
-  //表格数据
-  const [dataSource, setDataSource] = useState([]);
-  // 控制弹窗打开/关闭状态
+  const [dataSource, setDataSource] = useState<Student[]>([]);
   const [visible, setVisible] = useState(false);
-  //控制按钮保存/新增
   const [isAdd, setIsAdd] = useState(true);
-  //创建form实例
-  const [form] = Form.useForm();
+  const [currentId, setCurrentId] = useState<number | null>(null);
+  const [currentStudent, setCurrentStudent] = useState<Student | undefined>();
+  // 添加加载状态，避免重复提交
+  const [loading, setLoading] = useState(false);
 
-  //学生的CRUD操作
-  //获取表格数据所有学生
+  // 获取学生列表数据
+  const fetchStudents = async () => {
+    try {
+      const res = await getStudents();
+      if (res.success && Array.isArray(res.data)) {
+        setDataSource(res.data);
+      } else {
+        message.error("获取数据失败: " + (res.message || "未知错误"));
+      }
+    } catch (err) {
+      console.error("获取学生列表失败:", err);
+      message.error("获取数据失败，请刷新页面重试");
+    }
+  };
+
+  // 初始加载和刷新数据
   useEffect(() => {
-    // 若 axios 拦截器没解包：res.data 就是学生数组
-    getStudents().then((res) => setDataSource(res.data || []));
-    // 若你在拦截器里已经 return response.data：
-    // 那这里 res 就是 {success,count,data}，依然写 setDataSource(res.data || [])
+    fetchStudents();
   }, []);
-  console.log(dataSource);
-  //编辑和新增函数
+  // 处理新增/编辑按钮点击
   const handleClick = (type: string, rowData?: Student) => {
     if (type === "edit" && rowData) {
       setIsAdd(false);
+      setCurrentId(rowData.id || null);
+      setCurrentStudent(rowData);
       setVisible(true);
-      form.setFieldsValue(rowData); // 使用form实例设置表单初始值
     } else if (type === "add") {
       setIsAdd(true);
+      setCurrentId(null);
+      setCurrentStudent(undefined);
       setVisible(true);
-      form.resetFields();
     }
   };
-  const handleDelete = (rowData: Student) => {
-    console.log(rowData);
+
+  // 处理删除操作
+  const handleDelete = async (rowData: Student) => {
+    if (!rowData.id) {
+      message.error("学生ID不存在，无法删除");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await deleteStudent(rowData.id);
+      if (res.success) {
+        // 删除成功后刷新列表
+        fetchStudents();
+        message.success("删除成功");
+      } else {
+        message.error("删除失败: " + (res.message || "未知错误"));
+      }
+    } catch (err) {
+      console.error("删除失败:", err);
+      message.error("删除失败，请重试");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  //表单提交函数
-  const handleFinish = (e) => {
-    console.log(e);
-    addStudent(e).then((res) => {
-      console.log(res);
-      setVisible(false);
-      // 提交后刷新表格数据
-      getStudents().then((res) => {
-        console.log(res);
-        setDataSource(res.data[0].students);
-      });
-    });
-  };
+  // 表单提交处理函数
+  const handleFinish: FormProps<Student>["onFinish"] = async (values) => {
+    try {
+      setLoading(true);
 
-  const columns: TableColumnsType = [
-    {
-      title: "姓名",
-      dataIndex: "name",
-      width: 150,
-    },
-    {
-      title: "年龄",
-      dataIndex: "age",
-      width: 150,
-    },
-    {
-      title: "联系方式",
-      dataIndex: "phone",
-      width: 150,
-    },
-    {
-      title: "学历",
-      dataIndex: "education",
-      width: 150,
-    },
-    {
-      title: "毕业院校",
-      dataIndex: "graduationschool",
-      width: 150,
-    },
-    {
-      title: "岗位",
-      dataIndex: "profession",
-      width: 150,
-    },
-    {
-      title: "操作",
-      width: 150,
-      render: (rowData: Student) => {
-        return (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Button style={{ marginRight: "10px" }} onClick={() => handleClick("edit", rowData)}>
-              详情
-            </Button>
-            <Popconfirm
-              title="提示"
-              description="此操作将删除该用户，是否继续？"
-              okText="确认"
-              cancelText="取消"
-              onConfirm={() => handleDelete(rowData)}
-            >
-              <Button type="primary" danger>
-                删除
-              </Button>
-            </Popconfirm>
-          </div>
-        );
-      },
-    },
-  ];
+      // 数据预处理 - 确保类型正确
+      const studentData = {
+        ...values,
+        age: Number(values.age), // 确保age是数字类型
+      };
+
+      if (isAdd) {
+        // 新增学生
+        const res = await addStudent(studentData);
+        if (res.success) {
+          message.success("添加成功");
+          setVisible(false);
+          fetchStudents(); // 重新获取列表，确保数据同步
+        } else {
+          message.error("添加失败: " + (res.message || "未知错误"));
+        }
+      } else if (currentId) {
+        // 编辑学生
+        const res = await updateStudent(currentId, studentData);
+        if (res.success) {
+          message.success("更新成功");
+          setVisible(false);
+          fetchStudents(); // 重新获取列表，确保数据同步
+        } else {
+          message.error("更新失败: " + (res.message || "未知错误"));
+        }
+      }
+    } catch (err: any) {
+      console.error(isAdd ? "添加失败:" : "更新失败:", err);
+      message.error(`${isAdd ? "添加" : "更新"}失败: ${err.message || "网络错误"}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div style={{ padding: "20px" }} className="staff-container">
       <div className="control-container">
-        <Button type="primary" style={{ margin: 20, width: "85px", marginLeft: 10 }} onClick={() => handleClick("add")}>
-          添加
-        </Button>
-        <Search placeholder="" enterButton style={{ marginBottom: 20 }} />
-
-        <Select
-          style={{ width: "100%", marginBottom: 20 }}
-          placeholder="请选择学历"
-          options={[
-            {
-              value: "本科",
-              label: "本科",
-            },
-            {
-              value: "硕士",
-              label: "硕士",
-            },
-            {
-              value: "博士",
-              label: "博士",
-            },
-          ]}
-        />
-        <Select
-          style={{ width: "100%" }}
-          placeholder="请选择年龄"
-          options={[
-            {
-              value: "25以下",
-              label: "25以下",
-            },
-            {
-              value: "25-35",
-              label: "25-35",
-            },
-            {
-              value: "35-50",
-              label: "35-50",
-            },
-            {
-              value: "50以上",
-              label: "50以上",
-            },
-          ]}
-        />
-        <div className="filter-container"></div>
+        <Filter onAdd={() => handleClick("add")} loading={loading} />
       </div>
       <div className="border"></div>
       <div className="table-container">
-        {dataSource.length > 0 && (
-          <Table columns={columns} dataSource={dataSource} pagination={{ pageSize: 10 }} rowKey="id" />
-        )}
+        <StuTable
+          dataSource={dataSource}
+          loading={loading}
+          onEdit={(rowData) => handleClick("edit", rowData)}
+          onDelete={handleDelete}
+        />
       </div>
+
       {/* 弹窗组件 */}
-      <Modal
-        width={600}
-        footer={null}
-        open={visible}
+      <StuModal
+        visible={visible}
+        isAdd={isAdd}
+        initialValues={currentStudent}
+        loading={loading}
         onCancel={() => setVisible(false)}
-        title={isAdd ? "添加学生" : "编辑学生"}
-      >
-        <Form layout="vertical" initialValues={{ age: "", phone: "", email: "" }} form={form} onFinish={handleFinish}>
-          <Form.Item name="name" label="姓名" rules={[{ required: true, message: "请输入学生姓名" }]}>
-            <Input placeholder="请输入姓名" />
-          </Form.Item>
-
-          <Form.Item name="age" label="年龄" rules={[{ required: true, message: "请输入年龄" }]}>
-            <Input type="number" placeholder="请输入年龄" />
-          </Form.Item>
-
-          <Form.Item name="phone" label="联系方式" rules={[{ required: true, message: "请输入手机号" }]}>
-            <Input placeholder="请输入手机号" />
-          </Form.Item>
-
-          <Form.Item name="email" label="邮箱" rules={[{ required: true, message: "请输入邮箱" }]}>
-            <Input placeholder="请输入邮箱（如xxx@xxx.com）" />
-          </Form.Item>
-
-          <Form.Item name="education" label="学历" rules={[{ required: true, message: "请选择学历" }]}>
-            <Select placeholder="请选择学历" allowClear>
-              <Select.Option value="1">本科</Select.Option>
-              <Select.Option value="2">硕士</Select.Option>
-              <Select.Option value="3">博士</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item name="graduationschool" label="毕业院校" rules={[{ required: true, message: "请输入毕业院校" }]}>
-            <Input placeholder="请输入毕业院校" />
-          </Form.Item>
-
-          <Form.Item name="profession" label="职业" rules={[{ required: true, message: "请输入职业" }]}>
-            <Input placeholder="请输入职业（如学生、工程师）" />
-          </Form.Item>
-
-          <Form.Item name="profile" label="个人简介" rules={[{ required: false }]}>
-            <Input.TextArea rows={4} placeholder="请输入个人简介（选填）" />
-          </Form.Item>
-
-          <Form.Item style={{ textAlign: "right" }}>
-            <Button style={{ marginRight: 8 }}>取消</Button>
-            <Button type="primary" htmlType="submit">
-              {isAdd ? "新增" : "保存"}
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+        onFinish={handleFinish}
+      />
     </div>
   );
 };
