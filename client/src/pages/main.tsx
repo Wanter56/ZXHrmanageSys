@@ -26,7 +26,7 @@ const Main = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "left" }}>
+        <Footer style={{ textAlign: "left" }} className="">
           <p>项目 ©{new Date().getFullYear()} Created by wzh</p>
           <p>技术栈:Vite + React + Router + Zustand + Tyscript + less + Ant Design</p>
         </Footer>

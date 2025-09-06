@@ -3,9 +3,6 @@ import { getStudents, addStudent, updateStudent, deleteStudent } from "@api/data
 import { message } from "antd";
 import type { FormProps } from "antd";
 import { Student } from "@api/dataApi/studentsApi";
-
-//自定义组件和样式
-import "./staff.less";
 import StuModal from "./components/Modal";
 import StuTable from "./components/StuTable";
 import Filter from "./components/Filter";
@@ -118,12 +115,12 @@ const Staff: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }} className="staff-container">
-      <div className="control-container">
+    <div style={{ padding: "20px" }} className="flex flex-row w-full h-full ">
+      <div className="w-[300px]">
         <Filter onAdd={() => handleClick("add")} loading={loading} />
       </div>
-      <div className="border"></div>
-      <div className="table-container">
+      <div className="w-[6px] border-none"></div>
+      <div className="flex-1">
         <StuTable
           dataSource={dataSource}
           loading={loading}

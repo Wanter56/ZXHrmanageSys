@@ -2,5 +2,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(243, 244, 246);
+  height: 64px;
+  padding: 0 20px;
+  background-color: rgb(var(--color-box)); 
+  border-bottom: 1px solid rgb(var(--box-border));
+  .ant-btn {
+    background-color: rgba(var(--heading-1), 0.1) !important;
+    color: rgb(var(--heading-2)) !important;
+    
+    &:hover {
+      background-color: rgba(var(--heading-1), 0.2) !important;
+    }
+  }
+  .ant-avatar {
+    cursor: pointer;
+    border: 1px solid rgb(var(--box-border));
+  }
 }

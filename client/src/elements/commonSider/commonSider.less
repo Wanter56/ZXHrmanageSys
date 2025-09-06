@@ -1,15 +1,24 @@
 .common-sider {
-  background-color: rgb(243, 244, 246);
+  background-color: rgb(var(--color-box));
+  border-right: 1px solid rgb(var(--box-border));
+
   .app-name {
-    background-color: rgb(243, 244, 246);
+    color: rgb(var(--heading-1));
     text-align: center;
-    color: rgba(0, 0, 0, 0.88);
     line-height: 64px;
     font-weight: bold;
     font-size: 16px;
   }
+
   .menu {
-    background-color: rgb(243, 244, 246);
+    background-color: transparent;
     height: 100%;
+    .ant-menu-item-selected {
+      background-color: rgba(var(--heading-1), 0.1) !important;
+      color: rgb(var(--heading-1)) !important;
+    }
+    .ant-menu-item {
+      color: rgb(var(--heading-2)) !important;
+    }
   }
 }

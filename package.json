@@ -5,5 +5,23 @@
   },
   "devDependencies": {
     "@types/node": "^24.3.0"
-  }
+  },
+  "name": "hrmanagesys",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wanter56/ZXHrmanageSys.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wanter56/ZXHrmanageSys/issues"
+  },
+  "homepage": "https://github.com/Wanter56/ZXHrmanageSys#readme"
 }

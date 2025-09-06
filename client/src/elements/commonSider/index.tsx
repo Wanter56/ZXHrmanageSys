@@ -8,7 +8,7 @@ import { useCommonStore } from "../store/common";
 // 引入权限函数
 import { isAdmin } from "../../utils/auth";
 const { Sider } = Layout;
-import "./commonSider.less";
+// import "./commonSider.less";
 
 // 动态获取icon，添加类型检查
 const iconToElement = (name: string) => {
@@ -61,13 +61,15 @@ const CommonSider = () => {
   };
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed} className="common-sider">
-      <h3 className="app-name">{collapsed ? "织信" : "织信人事系统"}</h3>
+    <Sider trigger={null} collapsible collapsed={collapsed} className=" border-r border-box-border bg-box-bg">
+      <h3 className="text-center font-bold text-lg h-16 flex items-center justify-center text-heading-1 bg-box-bg">
+        {collapsed ? "织信" : "织信人事系统"}
+      </h3>
       <Menu
-        className="menu"
+        className="h-full bg-transparent text-heading-2"
         mode="inline"
         defaultSelectedKeys={[window.location.pathname]}
-        items={menuItems} // 使用状态中的菜单数据
+        items={menuItems}
         onClick={selectMenu}
       />
     </Sider>
