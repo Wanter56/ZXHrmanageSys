@@ -26,9 +26,9 @@ const Main = () => {
             <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "left" }} className="">
+        <Footer style={{ textAlign: "left", marginTop: 20, borderRadius: 10, margin: "24px 16px 20px" }}>
           <p>项目 ©{new Date().getFullYear()} Created by wzh</p>
-          <p>技术栈:Vite + React + Router + Zustand + Tyscript + less + Ant Design</p>
+          <p>技术栈:Vite + React + Router + Zustand + Tyscript + Tailwindcss + Ant Design</p>
         </Footer>
       </Layout>
     </Layout>

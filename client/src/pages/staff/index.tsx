@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { getStudents, addStudent, updateStudent, deleteStudent } from "@api/dataApi/studentsApi";
 import { message } from "antd";
 import type { FormProps } from "antd";
@@ -14,12 +14,42 @@ const Staff: React.FC = () => {
   const [currentStudent, setCurrentStudent] = useState<Student | undefined>();
   // 添加加载状态，避免重复提交
   const [loading, setLoading] = useState(false);
+  // 新增：标记是否是首次加载
+  const isFirstLoad = useRef(true);
+  // 1. 新增：缓存上次请求成功的数据（用 useRef 避免状态更新触发重渲染）
+  const cachedData = useRef<Student[]>([]);
+  // 2. 新增：标记数据是否已缓存（避免首次加载也走缓存）
+  const isDataCached = useRef(false);
+
+  // 初始加载和刷新数据
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  // 手动刷新数据的方法（如操作成功后调用）
+  const refreshData = () => {
+    fetchStudents();
+  };
 
   // 获取学生列表数据
   const fetchStudents = async () => {
+    setLoading(true);
+    // 非首次加载时：先对比缓存，数据一致则直接返回，不发请求
+    if (!isFirstLoad.current && isDataCached.current) {
+      // 对比逻辑：简单场景用 JSON.stringify（复杂数据可用 lodash.isEqual）
+      const isDataSame = JSON.stringify(cachedData.current) === JSON.stringify(dataSource);
+      if (isDataSame) {
+        message.info("数据未变化，无需刷新"); // 可选：提示用户
+        setLoading(false);
+        return; // 直接终止函数，不发请求、不更新状态
+      }
+    }
+
     try {
       const res = await getStudents();
       if (res.success && Array.isArray(res.data)) {
+        cachedData.current = res.data;
+        isDataCached.current = true;
         setDataSource(res.data);
       } else {
         message.error("获取数据失败: " + (res.message || "未知错误"));
@@ -27,28 +57,24 @@ const Staff: React.FC = () => {
     } catch (err) {
       console.error("获取学生列表失败:", err);
       message.error("获取数据失败，请刷新页面重试");
+      // 失败时保留旧数据
+    } finally {
+      setLoading(false);
+      isFirstLoad.current = false; // 首次加载完成
     }
   };
 
-  // 初始加载和刷新数据
-  useEffect(() => {
-    fetchStudents();
-  }, []);
-  // 处理新增/编辑按钮点击
-  const handleClick = (type: string, rowData?: Student) => {
-    if (type === "edit" && rowData) {
+  // 统一表格子节点的事件代理处理
+  const handleTableAction = (action: "edit" | "delete", rowData: Student) => {
+    if (action === "edit") {
       setIsAdd(false);
       setCurrentId(rowData.id || null);
       setCurrentStudent(rowData);
       setVisible(true);
-    } else if (type === "add") {
-      setIsAdd(true);
-      setCurrentId(null);
-      setCurrentStudent(undefined);
-      setVisible(true);
+    } else if (action === "delete") {
+      handleDelete(rowData);
     }
   };
-
   // 处理删除操作
   const handleDelete = async (rowData: Student) => {
     if (!rowData.id) {
@@ -61,7 +87,8 @@ const Staff: React.FC = () => {
       const res = await deleteStudent(rowData.id);
       if (res.success) {
         // 删除成功后刷新列表
-        fetchStudents();
+        isDataCached.current = false;
+        refreshData();
         message.success("删除成功");
       } else {
         message.error("删除失败: " + (res.message || "未知错误"));
@@ -78,8 +105,6 @@ const Staff: React.FC = () => {
   const handleFinish: FormProps<Student>["onFinish"] = async (values) => {
     try {
       setLoading(true);
-
-      // 数据预处理 - 确保类型正确
       const studentData = {
         ...values,
         age: Number(values.age), // 确保age是数字类型
@@ -91,7 +116,8 @@ const Staff: React.FC = () => {
         if (res.success) {
           message.success("添加成功");
           setVisible(false);
-          fetchStudents(); // 重新获取列表，确保数据同步
+          isDataCached.current = false;
+          refreshData(); // 重新获取列表，确保数据同步
         } else {
           message.error("添加失败: " + (res.message || "未知错误"));
         }
@@ -101,7 +127,8 @@ const Staff: React.FC = () => {
         if (res.success) {
           message.success("更新成功");
           setVisible(false);
-          fetchStudents(); // 重新获取列表，确保数据同步
+          isDataCached.current = false;
+          refreshData(); // 重新获取列表，确保数据同步
         } else {
           message.error("更新失败: " + (res.message || "未知错误"));
         }
@@ -117,16 +144,19 @@ const Staff: React.FC = () => {
   return (
     <div style={{ padding: "20px" }} className="flex flex-row w-full h-full ">
       <div className="w-[300px]">
-        <Filter onAdd={() => handleClick("add")} loading={loading} />
+        <Filter
+          onAdd={() => {
+            setIsAdd(true);
+            setCurrentId(null);
+            setCurrentStudent(undefined);
+            setVisible(true);
+          }}
+          loading={loading}
+        />
       </div>
       <div className="w-[6px] border-none"></div>
       <div className="flex-1">
-        <StuTable
-          dataSource={dataSource}
-          loading={loading}
-          onEdit={(rowData) => handleClick("edit", rowData)}
-          onDelete={handleDelete}
-        />
+        <StuTable dataSource={dataSource} loading={loading} onAction={handleTableAction} />
       </div>
 
       {/* 弹窗组件 */}

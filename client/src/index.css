@@ -155,3 +155,15 @@ html.dark .ant-select-selection-placeholder {
   background-color: rgb(var(--color-box)) !important;
   border-bottom: 1px solid rgb(var(--box-border)) !important;
 }
+
+.ant-layout-footer {
+  background-color: rgb(var(--color-box)) !important;
+  border-top: 1px solid rgb(var(--box-border)) !important;
+  color: rgb(var(--heading-3)) !important;
+}
+
+/* 重置popconfirm的按钮样式 */
+.ant-popover-inner {
+  background-color: rgb(var(--color-box)) !important;
+  border-color: rgb(var(--box-border)) !important;
+}
