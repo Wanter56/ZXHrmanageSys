@@ -21,7 +21,7 @@ const StuTable: React.FC<StudentTableProps> = ({ dataSource, loading, onAction }
     {
       title: "操作",
       width: 200,
-      render: (_, record) => (
+      render: () => (
         <div style={{ display: "flex", alignItems: "center" }}>
           <Button style={{ marginRight: "10px" }} data-btn-type="edit" disabled={loading}>
             详情
