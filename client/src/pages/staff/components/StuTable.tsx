@@ -55,11 +55,9 @@ const StuTable: React.FC<StudentTableProps> = ({ dataSource, loading, onAction }
     // 通过 e.target 判断点击的是“详情”还是“删除”按钮
     const target = e.target as HTMLElement;
     const btnElement = findBtnElement(target);
-    console.log(btnElement);
     if (!btnElement) return; // 没找到按钮，直接返回（如点击行内空白处）
     // 从按钮上获取 data-btnType，判断操作类型
     const btnType = btnElement.dataset.btnType;
-    console.log(btnType);
     if (btnType === "edit") {
       onAction("edit", record);
     } else if (btnType === "delete") {

@@ -11,7 +11,7 @@ interface StuModalProps {
   initialValues?: Partial<Student>;
   loading: boolean;
   onCancel: () => void;
-  onFinish: (values: Student) => Promise<void>;
+  onFinish: (values: Student) => void;
 }
 
 const StuModal: React.FC<StuModalProps> = ({ visible, isAdd, initialValues, loading, onCancel, onFinish }) => {

@@ -20,11 +20,15 @@ const Staff: React.FC = () => {
   const cachedData = useRef<Student[]>([]);
   // 2. 新增：标记数据是否已缓存（避免首次加载也走缓存）
   const isDataCached = useRef(false);
-
+  //展示筛选后的Table开关
+  const [isShow, setIsShow] = useState(false);
+  //筛选后的学生TableList数据
+  const [filterStu, setFilterStu] = useState<Student[]>([]);
   // 初始加载和刷新数据
   useEffect(() => {
     fetchStudents();
   }, []);
+  const stuList = isShow ? filterStu : dataSource;
 
   // 手动刷新数据的方法（如操作成功后调用）
   const refreshData = () => {
@@ -47,12 +51,12 @@ const Staff: React.FC = () => {
 
     try {
       const res = await getStudents();
-      if (res.success && Array.isArray(res.data)) {
+      if (Array.isArray(res.data)) {
         cachedData.current = res.data;
         isDataCached.current = true;
         setDataSource(res.data);
       } else {
-        message.error("获取数据失败: " + (res.message || "未知错误"));
+        message.error("获取数据失败: ");
       }
     } catch (err) {
       console.error("获取学生列表失败:", err);
@@ -64,6 +68,7 @@ const Staff: React.FC = () => {
     }
   };
 
+  //事件代理和学生的CRUD
   // 统一表格子节点的事件代理处理
   const handleTableAction = (action: "edit" | "delete", rowData: Student) => {
     if (action === "edit") {
@@ -85,13 +90,13 @@ const Staff: React.FC = () => {
     try {
       setLoading(true);
       const res = await deleteStudent(rowData.id);
-      if (res.success) {
+      if (res) {
         // 删除成功后刷新列表
         isDataCached.current = false;
         refreshData();
         message.success("删除成功");
       } else {
-        message.error("删除失败: " + (res.message || "未知错误"));
+        message.error("删除失败: ");
       }
     } catch (err) {
       console.error("删除失败:", err);
@@ -113,24 +118,24 @@ const Staff: React.FC = () => {
       if (isAdd) {
         // 新增学生
         const res = await addStudent(studentData);
-        if (res.success) {
+        if (res) {
           message.success("添加成功");
           setVisible(false);
           isDataCached.current = false;
           refreshData(); // 重新获取列表，确保数据同步
         } else {
-          message.error("添加失败: " + (res.message || "未知错误"));
+          message.error("添加失败: ");
         }
       } else if (currentId) {
         // 编辑学生
         const res = await updateStudent(currentId, studentData);
-        if (res.success) {
+        if (res) {
           message.success("更新成功");
           setVisible(false);
           isDataCached.current = false;
           refreshData(); // 重新获取列表，确保数据同步
         } else {
-          message.error("更新失败: " + (res.message || "未知错误"));
+          message.error("更新失败: ");
         }
       }
     } catch (err: any) {
@@ -139,6 +144,56 @@ const Staff: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  //Filter组建的筛选函数
+  //1. Search事件处理函数
+  const handleSearch = (e: any) => {
+    const strKeyword = String(e).toLowerCase();
+    const list = dataSource.filter((stu) => {
+      return Object.values(stu).some((value) => {
+        // 无论原始值是什么类型，都转为字符串后比较
+        return String(value).toLowerCase().includes(strKeyword);
+      });
+    });
+    setFilterStu(list);
+    setIsShow(true);
+  };
+  //2.学历筛选函数
+  const handleEduChange = (e: any) => {
+    const edu = String(e).toLowerCase();
+    const list = dataSource.filter((stu) => {
+      return Object.values(stu).some((value) => {
+        // 无论原始值是什么类型，都转为字符串后比较
+        return String(value).toLowerCase().includes(edu);
+      });
+    });
+    setFilterStu(list);
+    setIsShow(true);
+  };
+  //3.年龄筛选函数
+  const handleAgeChange = (e: any) => {
+    // e 就是选择的年龄区间（如"25以下"、"25-35"等）
+    const selectedRange = e;
+    // 根据选择的区间筛选学生
+    const list = dataSource.filter((stu) => {
+      // 确保学生年龄是有效数字
+      const age = Number(stu.age);
+      switch (selectedRange) {
+        case "25以下":
+          return age < 25;
+        case "25-35":
+          return age >= 25 && age <= 35;
+        case "35-50":
+          return age > 35 && age <= 50;
+        case "50以上":
+          return age > 50;
+        default:
+          return true; // 默认返回所有学生（如未选择区间时）
+      }
+    });
+    setFilterStu(list);
+    setIsShow(true);
   };
 
   return (
@@ -151,12 +206,15 @@ const Staff: React.FC = () => {
             setCurrentStudent(undefined);
             setVisible(true);
           }}
+          onSearch={handleSearch}
+          onEducationChange={handleEduChange}
+          onAgeRangeChange={handleAgeChange}
           loading={loading}
         />
       </div>
       <div className="w-[6px] border-none"></div>
       <div className="flex-1">
-        <StuTable dataSource={dataSource} loading={loading} onAction={handleTableAction} />
+        <StuTable dataSource={stuList} loading={loading} onAction={handleTableAction} />
       </div>
 
       {/* 弹窗组件 */}
