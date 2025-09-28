@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router";
 
-import AuthGuard from "@router/AuthGuard";
+import AuthGuard from "@router/guards/AuthGuard";
 import { isAdmin } from "@utils/auth";
 
 import NotFound from "@pages/404Page";

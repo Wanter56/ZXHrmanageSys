@@ -13,9 +13,11 @@
       "@api/*": ["src/api/*"],
       "@elements/*": ["src/elements/*"],
       "@store/*": ["src/store/*"],
+      "@store": ["src/store/index.ts"],
       "@assets/*": ["src/assets/*"],
-      "@common/*": ["src/common/*"],
-      "@router/*": ["src/router/*"]
+      "@config/*": ["src/config/*"],
+      "@router/*": ["src/router/*"],
+      "@hooks/*": ["src/hooks/*"]
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

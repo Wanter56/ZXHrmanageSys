@@ -1,7 +1,7 @@
 // src/App.tsx（修改后）
 import { RouterProvider } from "react-router";
 import { router } from "./router";
-import { ThemeProvider } from "./components/ThemeProvider";
+import { ThemeProvider } from "./components/business/ThemeProvider";
 
 function App() {
   return (

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
-import { getStudents, addStudent, updateStudent, deleteStudent } from "@api/dataApi/studentsApi";
+import { getStudents, addStudent, updateStudent, deleteStudent } from "@api/staff/studentsApi";
 import { message } from "antd";
 import type { FormProps } from "antd";
-import { Student } from "@api/dataApi/studentsApi";
+import { Student } from "@api/staff/studentsApi";
 import StuModal from "./components/Modal";
 import StuTable from "./components/StuTable";
 import Filter from "./components/Filter";

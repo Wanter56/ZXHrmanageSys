@@ -167,3 +167,8 @@ html.dark .ant-select-selection-placeholder {
   background-color: rgb(var(--color-box)) !important;
   border-color: rgb(var(--box-border)) !important;
 }
+
+/* 重置ant-layout的样式 */
+.ant-layout {
+  background-color: rgb(var(--color-bg)) !important;
+}

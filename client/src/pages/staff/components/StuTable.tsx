@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Button, Popconfirm, Spin, Skeleton } from "antd";
 import type { TableColumnsType } from "antd";
-import { Student } from "@api/dataApi/studentsApi";
+import { Student } from "@api/staff/studentsApi";
 
 interface StudentTableProps {
   dataSource: Student[];
@@ -26,13 +26,14 @@ const StuTable: React.FC<StudentTableProps> = ({ dataSource, loading, onAction }
           <Button style={{ marginRight: "10px" }} data-btn-type="edit" disabled={loading}>
             详情
           </Button>
-          <Popconfirm
-            title="提示"
-            description="此操作将删除该用户，是否继续？"
-            okText="确认"
-            cancelText="取消"
-          >
-            <Button type="primary" danger disabled={loading} data-btn-type="delete" onClick={(e) => e.stopPropagation()}>
+          <Popconfirm title="提示" description="此操作将删除该用户，是否继续？" okText="确认" cancelText="取消">
+            <Button
+              type="primary"
+              danger
+              disabled={loading}
+              data-btn-type="delete"
+              onClick={(e) => e.stopPropagation()}
+            >
               删除
             </Button>
           </Popconfirm>

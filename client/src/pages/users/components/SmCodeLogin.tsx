@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
-import { getUsers } from "../../../api/dataApi/usersApi";
+import { getUsers } from "../../../api/users/usersApi";
 
-import IconMap from "../Icon/IconMap";
+import IconMap from "../../../assets/icons/IconMap";
 import { Button } from "antd";
-import { LoginRule } from "../../../utils/rules";
+import { LoginRule } from "@utils/validation";
 
 const SmCodeLogin: React.FC = function ({ form, FormItem, Input }) {
   const [disabled, setDisabled] = useState(true);

@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
-import { getUsers } from "@api/dataApi/usersApi";
-import { getAnalyzeStaff } from "@api/dataApi/analyzeStaffApi";
+import { getUsers } from "@api/users/usersApi";
+import { getAnalyzeStaff } from "@api/dashboard/analyzeStaffApi";
 
 //引入自定义函数
-import { countWorkYears } from "@common/func/user/useWorkerStats";
-const useUserStore = create()(
+import { countWorkYears } from "@hooks/useWorkerStats";
+export const useUserStore = create()(
   immer((set, get) => ({
     usersList: [],
     otherUserData: {
@@ -68,5 +68,3 @@ const useUserStore = create()(
     },
   }))
 );
-
-export default useUserStore;

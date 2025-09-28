@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import useUserStore from "@store/userStore";
+import { useUserStore } from "@store";
 import { Card } from "antd";
-import MyTable from "@components/Table";
+import MyTable from "@components/common/Table";
 import type { TableProps } from "antd";
-import type { User } from "@api/interface/user";
-import Echart from "@components/Echart";
+import type { User } from "src/types/user";
+import Echart from "@components/common/Echart";
 
 const columns: TableProps<User>["columns"] = [
   {
@@ -53,9 +53,7 @@ const DashBoard: React.FC = () => {
         <Card.Grid className="border-r border-box-border last:border-r-0 p-4 text-heading-2">
           入职三年以上:{otherUserData.over3Years}人
         </Card.Grid>
-        <Card.Grid className="p-4 text-heading-2">
-          入职一年以内:{otherUserData.within1Year}人
-        </Card.Grid>
+        <Card.Grid className="p-4 text-heading-2">入职一年以内:{otherUserData.within1Year}人</Card.Grid>
       </Card>
 
       {/* 图表区域 - 性别与婚姻状况 */}

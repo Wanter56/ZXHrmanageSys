@@ -1,5 +1,5 @@
-import IconMap from "../Icon/IconMap";
-import { LoginRule } from "@utils/rules";
+import IconMap from "../../../assets/icons/IconMap";
+import { LoginRule } from "@utils/validation";
 
 function AccountLogin({ Input, FormItem }: { Input: any; FormItem: any }) {
   return (

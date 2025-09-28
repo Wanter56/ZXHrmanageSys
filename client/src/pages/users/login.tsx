@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import SmCodeLogin from "./components/SmCodeLogin";
 import AccountLogin from "./components/AccountLogin";
-import IconMap from "./Icon/IconMap";
-import { getUsers } from "@api/dataApi/usersApi";
+import IconMap from "../../assets/icons/IconMap";
+import { getUsers } from "@api/users/usersApi";
 //使用antd的form表单的相关组件
 import { Button, Form, Input, Row, Col, message } from "antd";
-import logImg from "@common/img/logo.svg";
+import logImg from "@assets/imgs/logo.svg";
 import "./css/login.less";
 
 const FormItem = Form.Item;
