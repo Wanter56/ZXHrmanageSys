@@ -17,7 +17,8 @@
       "@assets/*": ["src/assets/*"],
       "@config/*": ["src/config/*"],
       "@router/*": ["src/router/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@types/*": ["src/types/*"]
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

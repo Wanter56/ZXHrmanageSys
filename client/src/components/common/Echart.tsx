@@ -1,24 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
-
+import { EchartProps } from "../../types/index";
 // 定义传入数据的类型（根据实际需求调整）
-interface ChartData {
-  xdata?: string[];
-  series?: echarts.SeriesOption[];
-  [key: string]: any; // 支持饼图等其他数据格式
-}
-
-interface chartTitle {
-  text: string;
-  left: string;
-}
-
-interface EchartProps {
-  style?: React.CSSProperties;
-  charData: ChartData;
-  isAxisChart?: boolean; // true: 柱状图, false: 饼图
-  charTitle: chartTitle;
-}
 
 const Echart: React.FC<EchartProps> = ({ style, charData, isAxisChart = true, charTitle }) => {
   const echartRef = useRef<HTMLDivElement>(null);

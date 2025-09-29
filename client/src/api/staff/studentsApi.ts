@@ -1,30 +1,5 @@
-// 定义API通用响应类型：后端所有接口都返回该结构
-export interface ApiResponse<T> {
-  success: boolean; // 接口是否成功（true/false）
-  data: T; // 实际业务数据（学生列表、单个学生等）
-  message?: string; // 提示信息（如“添加成功”“id不存在”）
-  code?: number; // 状态码（可选，如200、404、500）
-}
-// 学历枚举：限制可选值，避免非法数据
-export enum EducationLevel {
-  UNDERGRADUATE = "本科",
-  MASTER = "硕士",
-  DOCTOR = "博士",
-}
-
-// 学生类型：完全对齐后端字段，id为number
-export interface Student {
-  id?: number; // 新增时后端自动生成，故为可选
-  name: string; // 必选：姓名
-  age: number; // 必选：年龄（后端通常用number）
-  phone: string; // 必选：电话号码（用string避免截断）
-  email: string; // 必选：邮箱
-  education: string; // 必选：学历（用枚举限制值）
-  graduationschool: string; // 必选：毕业院校
-  profession: string; // 必选：职业
-  profile?: string; // 可选：个人简介（非必填）
-}
 import request from "../client";
+import type { Student, ApiResponse } from "../../types/index";
 
 // 1. 获取学生列表（支持分页）
 export const getStudents = (params?: { page?: number; limit?: number }) => {

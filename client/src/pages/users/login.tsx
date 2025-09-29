@@ -10,33 +10,9 @@ import { Button, Form, Input, Row, Col, message } from "antd";
 import logImg from "@assets/imgs/logo.svg";
 import "./css/login.less";
 
+import type { User } from "../../types/index";
 const FormItem = Form.Item;
 
-interface BigNumberObject {
-  low: number;
-  high: number;
-  unsigned: boolean;
-}
-
-interface User {
-  _id: string;
-  __v: number;
-  accountName: string;
-  bankNumber: BigNumberObject;
-  department: string;
-  education: number;
-  gender: number;
-  graduatedSchool: string;
-  idNumber: BigNumberObject;
-  identity: number;
-  level: number;
-  marriage: number;
-  mobile: number;
-  onboardingTime: string;
-  password: string;
-  salary: number;
-  userName: string;
-}
 const Login: React.FC = function () {
   const navigate = useNavigate();
   const [form] = Form.useForm();
