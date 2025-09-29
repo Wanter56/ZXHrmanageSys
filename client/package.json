@@ -12,9 +12,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.2",
-    "@types/node": "^24.5.2",
     "antd": "^5.27.0",
-    "axios": "^1.11.0",
+    "axios-cache-interceptor": "^1.8.3",
     "echarts": "^6.0.0",
     "i": "^0.3.7",
     "immer": "^10.1.1",
@@ -28,10 +27,12 @@
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^24.5.2",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react-swc": "^4.0.0",
     "autoprefixer": "^10.4.21",
+    "axios": "^1.12.2",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
@@ -41,7 +42,7 @@
     "tailwindcss": "^4.1.13",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
-    "vite": "^7.1.2"
+    "vite": "^7.1.7"
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "eslint.config.js",

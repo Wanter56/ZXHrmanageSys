@@ -5,6 +5,10 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    exclude: ["axios-extensions"],
+    force: true,
+  },
   resolve: {
     alias: [
       { find: "@pages", replacement: path.resolve(__dirname, "src/pages") },

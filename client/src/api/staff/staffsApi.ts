@@ -1,7 +1,7 @@
-import request from "../client";
+import client from "../client";
 //获取用户信息的API
 export const getStaffs = () => {
-  return request.request({
+  return client.request({
     url: "/staffs",
     method: "get",
   });

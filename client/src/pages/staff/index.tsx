@@ -51,10 +51,10 @@ const Staff: React.FC = () => {
 
     try {
       const res = await getStudents();
-      if (Array.isArray(res.data)) {
-        cachedData.current = res.data;
+      if (Array.isArray(res)) {
+        cachedData.current = res;
         isDataCached.current = true;
-        setDataSource(res.data);
+        setDataSource(res);
       } else {
         message.error("获取数据失败: ");
       }

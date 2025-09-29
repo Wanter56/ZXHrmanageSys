@@ -24,7 +24,7 @@ export const useUserStore = create()(
       set({ isloading: true, error: null });
       try {
         const response = await getUsers();
-        set({ usersList: response.data, isloading: false });
+        set({ usersList: response, isloading: false });
       } catch (error: any) {
         set({ error: error.message, isloading: false });
       }
@@ -61,7 +61,7 @@ export const useUserStore = create()(
       set({ isloading: true, error: null });
       try {
         const response = await getAnalyzeStaff();
-        set({ analyzeStaffData: response.data.data, isloading: false });
+        set({ analyzeStaffData: response.data, isloading: false });
       } catch (error: any) {
         set({ error: error.message, isloading: false });
       }
