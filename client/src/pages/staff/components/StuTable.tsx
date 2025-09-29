@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Button, Popconfirm, Spin, Skeleton } from "antd";
 import type { TableColumnsType } from "antd";
-import { Student } from "@api/staff/studentsApi";
+import { Student } from "../../../types/index";
 
 interface StudentTableProps {
   dataSource: Student[];

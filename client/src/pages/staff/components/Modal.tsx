@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Form, Input, Button, Select } from "antd";
 import type { FormProps } from "antd";
-import { Student } from "@api/staff/studentsApi";
+import { Student } from "../../../types/index";
 
 const { Option } = Select;
 

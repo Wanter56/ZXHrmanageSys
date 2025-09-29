@@ -83,7 +83,7 @@ export interface chartTitle {
 
 // 定义图表组件属性类型
 export interface EchartProps {
-  style?: React.CSSProperties;
+  className?: string;
   charData: ChartData;
   isAxisChart?: boolean; // true: 柱状图, false: 饼图
   charTitle: chartTitle;

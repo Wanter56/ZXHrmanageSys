@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { getStudents, addStudent, updateStudent, deleteStudent } from "@api/staff/studentsApi";
 import { message } from "antd";
 import type { FormProps } from "antd";
-import { Student } from "@api/staff/studentsApi";
+import { Student } from "../../types/index";
 import StuModal from "./components/Modal";
 import StuTable from "./components/StuTable";
 import Filter from "./components/Filter";
@@ -205,6 +205,10 @@ const Staff: React.FC = () => {
             setCurrentId(null);
             setCurrentStudent(undefined);
             setVisible(true);
+          }}
+          onReset={() => {
+            setFilterStu(dataSource);
+            setIsShow(false);
           }}
           onSearch={handleSearch}
           onEducationChange={handleEduChange}

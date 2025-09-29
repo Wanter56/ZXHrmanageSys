@@ -3,7 +3,7 @@ import * as echarts from "echarts";
 import { EchartProps } from "../../types/index";
 // 定义传入数据的类型（根据实际需求调整）
 
-const Echart: React.FC<EchartProps> = ({ style, charData, isAxisChart = true, charTitle }) => {
+const Echart: React.FC<EchartProps> = ({ className, charData, isAxisChart = true, charTitle }) => {
   const echartRef = useRef<HTMLDivElement>(null);
   const echartObj = useRef<echarts.ECharts | null>(null);
 
@@ -88,7 +88,7 @@ const Echart: React.FC<EchartProps> = ({ style, charData, isAxisChart = true, ch
     };
   }, [charData, isAxisChart, charTitle]); // 依赖变化时更新图表
 
-  return <div style={style} ref={echartRef} />;
+  return <div className={className} ref={echartRef} />;
 };
 
 export default Echart;

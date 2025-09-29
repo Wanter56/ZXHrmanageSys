@@ -3,7 +3,7 @@ import { useUserStore } from "@store";
 import { Card } from "antd";
 import MyTable from "@components/common/Table";
 import type { TableProps } from "antd";
-import type { User } from "src/types/user";
+import type { User } from "../../types/index";
 import Echart from "@components/common/Echart";
 
 const columns: TableProps<User>["columns"] = [
@@ -75,13 +75,13 @@ const DashBoard: React.FC = () => {
       {/* 图表区域 - 学历与星座 */}
       <div className="flex flex-col md:flex-row gap-6 w-[90%] mx-auto border border-box-border bg-box-bg rounded-lg p-4 mb-6">
         <Echart
-          style={{ height: "300px", width: "100%", md: { width: "45%" } }}
+          className="h-[300px] w-full md:w-[45%]"
           charData={educationList}
           isAxisChart={false}
           charTitle={{ text: "员工学历情况:", left: "center" }}
         />
         <Echart
-          style={{ height: "300px", width: "100%", md: { width: "45%" } }}
+          className="h-[300px] w-full md:w-[45%]"
           charData={constellationList}
           isAxisChart={false}
           charTitle={{ text: "员工星座情况:", left: "center" }}
@@ -92,7 +92,7 @@ const DashBoard: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-6 w-[90%] mx-auto border border-box-border bg-box-bg rounded-lg p-4 mb-6">
         {ageMap && (
           <Echart
-            style={{ height: "300px", width: "100%", md: { width: "45%" } }}
+            className="h-[300px] w-full md:w-[45%]"
             charData={ageMap}
             isAxisChart={true}
             charTitle={{ text: "员工年龄情况:", left: "center" }}
@@ -100,7 +100,7 @@ const DashBoard: React.FC = () => {
         )}
         {departmentList && (
           <Echart
-            style={{ height: "300px", width: "100%", md: { width: "45%" } }}
+            className="h-[300px] w-full md:w-[45%]"
             charData={departmentList}
             isAxisChart={true}
             charTitle={{ text: "部门分布:", left: "center" }}

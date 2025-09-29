@@ -9,32 +9,22 @@ interface FilterProps {
   onSearch?: (value: string) => void;
   onEducationChange?: (value: string) => void;
   onAgeRangeChange?: (value: string) => void;
+  onReset?: () => void;
 }
 
-const Filter: React.FC<FilterProps> = ({
-  onAdd,
-  loading,
-  onSearch,
-  onEducationChange,
-  onAgeRangeChange,
-}) => {
+const Filter: React.FC<FilterProps> = ({ onAdd, onReset, loading, onSearch, onEducationChange, onAgeRangeChange }) => {
   return (
     <div className="control-container">
-      <Button 
-        type="primary" 
-        style={{ margin: 20, width: "85px", marginLeft: 10 }} 
-        onClick={onAdd}
-        disabled={loading}
-      >
-        添加
-      </Button>
-      
-      <Search 
-        placeholder="搜索学生" 
-        enterButton 
-        style={{ marginBottom: 20 }}
-        onSearch={onSearch}
-      />
+      <div className="flex justify-between mb-4">
+        <Button type="primary" className="mr-4 " onClick={onAdd} disabled={loading}>
+          添加
+        </Button>
+        <Button type="primary" className="ml-4" onClick={onReset} disabled={loading}>
+          重置
+        </Button>
+      </div>
+
+      <Search placeholder="搜索学生" enterButton style={{ marginBottom: 20 }} onSearch={onSearch} />
 
       <Select
         style={{ width: "100%", marginBottom: 20 }}
@@ -46,7 +36,7 @@ const Filter: React.FC<FilterProps> = ({
         ]}
         onChange={onEducationChange}
       />
-      
+
       <Select
         style={{ width: "100%" }}
         placeholder="请选择年龄范围"
@@ -58,7 +48,7 @@ const Filter: React.FC<FilterProps> = ({
         ]}
         onChange={onAgeRangeChange}
       />
-      
+
       <div className="filter-container"></div>
     </div>
   );
