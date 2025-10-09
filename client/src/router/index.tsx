@@ -4,18 +4,27 @@ import AuthGuard from "@router/guards/AuthGuard";
 import { isAdmin } from "@utils/auth";
 
 import NotFound from "@pages/404Page";
-import AccessMent from "@pages/accessment";
-import Attendance from "@pages/attendance";
-import AttendanceInfo from "@pages/attendanceInfo";
+// import AccessMent from "@pages/accessment";
+const AccessMent = LazyComponent(() => import("@pages/accessment"));
+// import Attendance from "@pages/attendance";
+const Attendance = LazyComponent(() => import("@pages/attendance"));
+// import AttendanceInfo from "@pages/attendanceInfo";
+const AttendanceInfo = LazyComponent(() => import("@pages/attendanceInfo"));
 import DashBoard from "@pages/dashboard";
-import Department from "@pages/department";
-import Level from "@pages/level";
-import RewardRecord from "@pages/rewardRecord";
-import Salary from "@pages/salary";
-import Staff from "@pages/staff";
+// import Department from "@pages/department";
+const Department = LazyComponent(() => import("@pages/department"));
+// import Level from "@pages/level";
+const Level = LazyComponent(() => import("@pages/level"));
+// import RewardRecord from "@pages/rewardRecord";
+const RewardRecord = LazyComponent(() => import("@pages/rewardRecord"));
+// import Salary from "@pages/salary";
+const Salary = LazyComponent(() => import("@pages/salary"));
+// import Staff from "@pages/staff";
+const Staff = LazyComponent(() => import("@pages/staff"));
 import Login from "@pages/users/login";
 import Main from "@pages/main";
-import Modal from "@pages/staff/component/Modal";
+
+import { LazyComponent } from "@utils/lazyLoad";
 
 // 创建带权限的路由组件
 const ProtectedRoute = ({ element, requireAdmin = false }) => {
@@ -39,7 +48,6 @@ const getHomePage = () => {
   // 管理员显示管理员首页，普通用户显示用户首页
   return isAdmin() ? <Navigate to="/dashboard" replace /> : <Navigate to="/attendance" replace />;
 };
-
 export const router = createBrowserRouter([
   {
     path: "/users/login",

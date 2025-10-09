@@ -197,7 +197,7 @@ const Staff: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }} className="flex flex-row w-full h-full ">
+    <div style={{ padding: "20px" }} className="flex flex-row w-full h-full big-screen-wrapper">
       <div className="w-[300px]">
         <Filter
           onAdd={() => {
