@@ -18,7 +18,7 @@ const columns: TableProps<User>["columns"] = [
 ];
 
 const DashBoard: React.FC = () => {
-  const { otherUserData, fetchUsers, getUserStats, analyzeStaffData, fetchAnalyzeStaff } = useUserStore();
+  const { otherUserData, fetchUsers, getUserStats, analyzeStaffData, fetchAnalyzeStaff } = useUserStore() as any;
 
   useEffect(() => {
     const loadData = async () => {
@@ -59,13 +59,13 @@ const DashBoard: React.FC = () => {
       {/* 图表区域 - 性别与婚姻状况 */}
       <div className="flex flex-col md:flex-row gap-6 w-[90%] mx-auto border border-box-border bg-box-bg rounded-lg p-4 mb-6">
         <Echart
-          style={{ height: "300px", width: "100%", md: { width: "45%" } }}
+          style={{ height: "300px", width: "100%", minWidth:"45%" }}
           charData={genderList}
           isAxisChart={false}
           charTitle={{ text: "员工性别占比:", left: "center" }}
         />
         <Echart
-          style={{ height: "300px", width: "100%", md: { width: "45%" } }}
+          style={{ height: "300px", width: "100%",minWidth:"45%" }}
           charData={marriageList}
           isAxisChart={false}
           charTitle={{ text: "员工婚姻情况:", left: "center" }}

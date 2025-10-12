@@ -5,7 +5,7 @@ import { getUsers } from "@api/users/usersApi";
 import { getAnalyzeStaff } from "@api/dashboard/analyzeStaffApi";
 
 //引入自定义函数
-import { countWorkYears } from "@hooks/useWorkerStats";
+import { useWorkerStats } from "@hooks/useWorkerStats";
 export const useUserStore = create()(
   immer((set, get) => ({
     usersList: [],
@@ -32,7 +32,7 @@ export const useUserStore = create()(
 
     //用户的一些统计数据
     getUserStats: (targetYear: number) => {
-      const { usersList } = get();
+      const { usersList } = get() as any;
       if (!usersList || usersList.length === 0) {
         return {
           total: 0,
@@ -42,9 +42,9 @@ export const useUserStore = create()(
         };
       }
       const total = usersList.length;
-      const over10Years = countWorkYears(usersList, targetYear, 10);
-      const over3Years = countWorkYears(usersList, targetYear, 3);
-      const within1Year = countWorkYears(usersList, targetYear, 1);
+      const over10Years = useWorkerStats(usersList, targetYear, 10);
+      const over3Years =useWorkerStats(usersList, targetYear, 3);
+      const within1Year = useWorkerStats(usersList, targetYear, 0) - useWorkerStats(usersList, targetYear, 1);
 
       set({
         otherUserData: {

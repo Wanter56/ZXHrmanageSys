@@ -87,4 +87,5 @@ export interface EchartProps {
   charData: ChartData;
   isAxisChart?: boolean; // true: 柱状图, false: 饼图
   charTitle: chartTitle;
+  style?: React.CSSProperties; // 添加 style 属性\
 }

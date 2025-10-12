@@ -1,4 +1,4 @@
-import type { User } from "src/types/user"; // 导入User类型
+import type { User } from "../types/index"; // 导入User类型
 
 /**
  * 计算工作年限超过指定值的员工数量
@@ -7,7 +7,7 @@ import type { User } from "src/types/user"; // 导入User类型
  * @param minYear 最小工作年限（默认0）
  * @returns 符合条件的员工数量
  */
-export const countWorkYears = (workerList: User[], targetYear: number, minYear: number = 0): number => {
+export const useWorkerStats = (workerList: User[], targetYear: number, minYear: number = 0): number => {
   return workerList.filter((worker) => {
     try {
       const onboardYear = new Date(worker.onboardingTime).getFullYear();
